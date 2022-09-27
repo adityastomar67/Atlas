@@ -23,6 +23,7 @@ from clint.textui import progress
 from ecapture import ecapture as ec
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from bin.constants import * 
 
 
 engine = pyttsx3.init('sapi5')
@@ -102,9 +103,9 @@ if __name__ == '__main__':
 
     # This Function will clean any
     # command before execution of this python file
-    clear()
-    wishMe()
-    username()
+    # clear()
+    # wishMe()
+    # username()
 
     while True:
 
@@ -199,7 +200,7 @@ if __name__ == '__main__':
             exit()
 
         elif "who made you" in query or "who created you" in query:
-            speak("I have been created by Gaurav.")
+            speak(f"I have been created by {NICKNAME}.")
 
         elif 'joke' in query:
             speak(pyjokes.get_joke())
