@@ -34,18 +34,19 @@ def speak(audio):
     engine.say(audio)
     engine.runAndWait()
 
+
 def wishMe():
     hour = int(datetime.datetime.now().hour)
-    if hour>= 0 and hour<12:
+    if hour >= 0 and hour < 12:
         speak("Good Morning Sir !")
 
-    elif hour>= 12 and hour<18:
+    elif hour >= 12 and hour < 18:
         speak("Good Afternoon Sir !")
 
     else:
         speak("Good Evening Sir !")
 
-    assname =("Jarvis 1 point o")
+    assname = ("Jarvis 1 point o")
     speak("I am your Assistant")
     speak(assname)
 
@@ -61,12 +62,11 @@ def username():
     print("Welcome Mr.", uname.center(columns))
     print("#####################".center(columns))
 
-        speak("How can i Help you, Sir")
+    speak("How can i Help you, Sir")
+
 
 def takeCommand():
-
     r = sr.Recognizer()
-
     with sr.Microphone() as source:
 
         print("Listening...")
@@ -74,49 +74,50 @@ def takeCommand():
         audio = r.listen(source)
 
         try:
-        print("Recognizing...")
-        query = r.recognize_google(audio, language ='en-in')
-        print(f"User said: {query}\n")
+            print("Recognizing...")
+            query = r.recognize_google(audio, language='en-in')
+            print(f"User said: {query}\n")
 
         except Exception as e:
-        print(e)
-        print("Unable to Recognize your voice.")
-        return "None"
+            print(e)
+            print("Unable to Recognize your voice.")
+            return "None"
 
         return query
 
-        def sendEmail(to, content):
-        server = smtplib.SMTP('smtp.gmail.com', 587)
-        server.ehlo()
-        server.starttls()
 
-        # Enable low security in gmail
-        server.login('your email id', 'your email password')
-        server.sendmail('your email id', to, content)
-        server.close()
+def sendEmail(to, content):
+    server = smtplib.SMTP('smtp.gmail.com', 587)
+    server.ehlo()
+    server.starttls()
+
+    # Enable low security in gmail
+    server.login('your email id', 'your email password')
+    server.sendmail('your email id', to, content)
+    server.close()
 
 
-        if __name__ == '__main__':
-        clear = lambda: os.system('cls')
+if __name__ == '__main__':
+    def clear(): return os.system('cls')
 
-        # This Function will clean any
-        # command before execution of this python file
-        clear()
-        wishMe()
-        username()
+    # This Function will clean any
+    # command before execution of this python file
+    clear()
+    wishMe()
+    username()
 
-        while True:
+    while True:
 
         query = takeCommand().lower()
 
         # All the commands said by user will be
-    # stored here in 'query' and will be
+        # stored here in 'query' and will be
         # converted to lower case for easily
         # recognition of command
         if 'wikipedia' in query:
             speak('Searching Wikipedia...')
             query = query.replace("wikipedia", "")
-            results = wikipedia.summary(query, sentences = 3)
+            results = wikipedia.summary(query, sentences=3)
             speak("According to Wikipedia")
             print(results)
             speak(results)
@@ -242,9 +243,9 @@ def takeCommand():
 
         elif 'change background' in query:
             ctypes.windll.user32.SystemParametersInfoW(20,
-                    0,
-                    "Location of wallpaper",
-                                                    0)
+                                                       0,
+                                                       "Location of wallpaper",
+                                                       0)
             speak("Background changed successfully")
 
         elif 'open bluestack' in query:
@@ -254,12 +255,13 @@ def takeCommand():
         elif 'news' in query:
 
             try:
-                jsonObj = urlopen('''https://newsapi.org / v1 / articles?source = the-times-of-india&sortBy = top&apiKey =\\times of India Api key\\''')
+                jsonObj = urlopen(
+                    '''https://newsapi.org / v1 / articles?source = the-times-of-india&sortBy = top&apiKey =\\times of India Api key\\''')
                 data = json.load(jsonObj)
                 i = 1
 
                 speak('here are some top news from the times of india')
-                print('''=============== TIMES OF INDIA ============'''+ '\n')
+                print('''=============== TIMES OF INDIA ============''' + '\n')
 
                 for item in data['articles']:
 
@@ -271,17 +273,16 @@ def takeCommand():
 
                 print(str(e))
 
-
         elif 'lock window' in query:
             speak("locking the device")
-                ctypes.windll.user32.LockWorkStation()
+            ctypes.windll.user32.LockWorkStation()
 
         elif 'shutdown system' in query:
             speak("Hold On a Sec ! Your system is on its way to shut down")
-                subprocess.call('shutdown / p /f')
+            subprocess.call('shutdown / p /f')
 
         elif 'empty recycle bin' in query:
-            winshell.recycle_bin().empty(confirm = False, show_progress = False, sound = True)
+            winshell.recycle_bin().empty(confirm=False, show_progress=False, sound=True)
             speak("Recycle Bin Recycled")
 
         elif "don't listen" in query or "stop listening" in query:
@@ -295,7 +296,8 @@ def takeCommand():
             location = query
             speak("User asked to Locate")
             speak(location)
-            webbrowser.open("https://www.google.nl / maps / place/" + location + "")
+            webbrowser.open(
+                "https://www.google.nl / maps / place/" + location + "")
 
         elif "camera" in query or "take a photo" in query:
             ec.capture(0, "Jarvis Camera ", "img.jpg")
@@ -304,53 +306,50 @@ def takeCommand():
             subprocess.call(["shutdown", "/r"])
 
         elif "hibernate" in query or "sleep" in query:
-        speak("Hibernating")
-        subprocess.call("shutdown / h")
+            speak("Hibernating")
+            subprocess.call("shutdown / h")
 
         elif "log off" in query or "sign out" in query:
-        speak("Make sure all the application are closed before sign-out")
-        time.sleep(5)
-        subprocess.call(["shutdown", "/l"])
+            speak("Make sure all the application are closed before sign-out")
+            time.sleep(5)
+            subprocess.call(["shutdown", "/l"])
 
         elif "write a note" in query:
-        speak("What should i write, sir")
+            speak("What should i write, sir")
             note = takeCommand()
             file = open('jarvis.txt', 'w')
             speak("Sir, Should i include date and time")
-        snfm = takeCommand()
-        if 'yes' in snfm or 'sure' in snfm:
-        strTime = datetime.datetime.now().strftime("% H:% M:% S")
-        file.write(strTime)
-        file.write(" :- ")
-        file.write(note)
-        else:
-        file.write(note)
+            snfm = takeCommand()
+            if 'yes' in snfm or 'sure' in snfm:
+                strTime = datetime.datetime.now().strftime("% H:% M:% S")
+                file.write(strTime)
+                file.write(" :- ")
+                file.write(note)
+            else:
+                file.write(note)
 
         elif "show note" in query:
-        speak("Showing Notes")
-        file = open("jarvis.txt", "r")
+            speak("Showing Notes")
+            file = open("jarvis.txt", "r")
             print(file.read())
             speak(file.read(6))
 
         elif "update assistant" in query:
-        speak("After downloading file please replace this file with the downloaded one")
-        url = '# url after uploading file'
-        r = requests.get(url, stream = True)
+            speak(
+                "After downloading file please replace this file with the downloaded one")
+            url = '# url after uploading file'
+            r = requests.get(url, stream=True)
 
-        with open("Voice.py", "wb") as Pypdf:
-
-        total_length = int(r.headers.get('content-length'))
-
-        for ch in progress.bar(r.iter_content(chunk_size = 2391975),
-            expected_size =(total_length / 1024) + 1):
-        if ch:
-        Pypdf.write(ch)
+            with open("Voice.py", "wb") as Pypdf:
+                total_length = int(r.headers.get('content-length'))
+                for ch in progress.bar(r.iter_content(chunk_size=2391975), expected_size=(total_length / 1024) + 1):
+                    if ch:
+                        Pypdf.write(ch)
 
         # NPPR9-FWDCX-D2C8J-H872K-2YT43
         elif "jarvis" in query:
-
-        wishMe()
-        speak("Jarvis 1 point o in your service Mister")
+            wishMe()
+            speak("Jarvis 1 point o in your service Mister")
             speak(assname)
 
         elif "weather" in query:
@@ -367,43 +366,44 @@ def takeCommand():
             x = response.json()
 
             if x["code"] != "404":
-            y = x["main"]
-            current_temperature = y["temp"]
-            current_pressure = y["pressure"]
-            current_humidiy = y["humidity"]
-            z = x["weather"]
+                y = x["main"]
+                current_temperature = y["temp"]
+                current_pressure = y["pressure"]
+                current_humidiy = y["humidity"]
+                z = x["weather"]
                 weather_description = z[0]["description"]
-            print(" Temperature (in kelvin unit) = " +str(current_temperature)+"\n atmospheric pressure (in hPa unit) ="+str(current_pressure) +"\n humidity (in percentage) = " +str(current_humidiy) +"\n description = " +str(weather_description))
+                print(" Temperature (in kelvin unit) = " + str(current_temperature)+"\n atmospheric pressure (in hPa unit) =" +
+                      str(current_pressure) + "\n humidity (in percentage) = " + str(current_humidiy) + "\n description = " + str(weather_description))
 
             else:
-            speak(" City Not Found ")
+                speak(" City Not Found ")
 
-            elif "send message " in query:
+        elif "send message " in query:
             # You need to create an account on Twilio to use this service
             account_sid = 'Account Sid key'
             auth_token = 'Auth token'
             client = Client(account_sid, auth_token)
 
             message = client.messages \
-                    .create(
-                        body = takeCommand(),
-                        from_='Sender No',
-                        to ='Receiver No'
-                        )
+                .create(
+                    body=takeCommand(),
+                    from_='Sender No',
+                    to='Receiver No'
+                )
 
-                    print(message.sid)
+            print(message.sid)
 
-                    elif "wikipedia" in query:
-                    webbrowser.open("wikipedia.com")
+        elif "wikipedia" in query:
+            webbrowser.open("wikipedia.com")
 
-                    elif "Good Morning" in query:
-                    speak("A warm" +query)
-                    speak("How are you Mister")
+        elif "Good Morning" in query:
+            speak("A warm" + query)
+            speak("How are you Mister")
             speak(assname)
 
         # most asked question from google Assistant
         elif "will you be my gf" in query or "will you be my bf" in query:
-        speak("I'm not sure about, may be you should give me some time")
+            speak("I'm not sure about, may be you should give me some time")
 
         elif "how are you" in query:
             speak("I'm fine, glad you me that")
@@ -419,10 +419,10 @@ def takeCommand():
             res = client.query(query)
 
             try:
-                print (next(res.results).text)
-                speak (next(res.results).text)
+                print(next(res.results).text)
+                speak(next(res.results).text)
             except StopIteration:
-                print ("No results")
+                print("No results")
 
         # elif "" in query:
             # Command go here
